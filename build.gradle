@@ -1,0 +1,61 @@
+plugins {
+    id 'java'
+}
+
+group 'org.data.poc'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    cucumberRuntime {
+        extendsFrom testImplementation
+    }
+}
+
+def cucumberVersion = "6.6.0"
+def lombokVersion = "1.18.22"
+def sqliteJdbcVersion = "3.36.0.3"
+def springVersion = "5.4.2"
+def slf4jVersion = "1.7.32"
+
+dependencies {
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+
+    implementation group: 'org.xerial', name: 'sqlite-jdbc', version: sqliteJdbcVersion
+    implementation group: 'io.cucumber', name: 'cucumber-junit', version: cucumberVersion
+    implementation group: 'io.cucumber', name: 'cucumber-testng', version: cucumberVersion
+    implementation group: 'io.cucumber', name: 'cucumber-java', version: cucumberVersion
+    implementation group: 'io.cucumber', name: 'cucumber-core', version: cucumberVersion
+    implementation group: 'io.cucumber', name: 'cucumber-gherkin', version: cucumberVersion
+    implementation group: 'io.cucumber', name: 'cucumber-picocontainer', version: cucumberVersion
+    implementation group: 'org.springframework.integration', name: 'spring-integration-test', version: springVersion
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: slf4jVersion
+    implementation group: 'org.slf4j', name: 'slf4j-log4j12', version: slf4jVersion
+
+}
+
+task cucumber() {
+    dependsOn assemble, testClasses
+    doLast {
+        javaexec {
+            main = "io.cucumber.core.cli.Main"
+            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+            args = [
+                    '--strict',
+                    '--plugin', 'html:build/cucumber-report/cucumber-html-report',
+                    '--plugin', 'json:build/cucumber-report/cucumber.json',
+                    '--plugin', 'pretty',
+                    //'--plugin', 'io.qameta.allure.cucumber5jvm.AllureCucumber5Jvm',
+                    '--tags', tags]
+        }
+    }
+}
+
+
+//test {
+//    useJUnitPlatform()
+//}
