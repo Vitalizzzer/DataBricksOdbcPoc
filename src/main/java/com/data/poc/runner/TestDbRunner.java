@@ -8,6 +8,8 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         plugin = {
                 "pretty",
+                "html:target/cucumber-report/cucumber-html-report.html",
+                "json:target/cucumber-report/cucumber-report.json",
                 "com.epam.reportportal.cucumber.StepReporter"
         },
         features = {"classpath:features"},
