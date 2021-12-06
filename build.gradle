@@ -20,6 +20,7 @@ def lombokVersion = "1.18.22"
 def sqliteJdbcVersion = "3.36.0.3"
 def slf4jVersion = "1.7.32"
 def reportportalCucumberVersion = "5.0.6"
+def reportportalLogbackVersion = "5.0.3"
 
 
 
@@ -35,12 +36,24 @@ dependencies {
     implementation group: 'io.cucumber', name: 'cucumber-gherkin', version: cucumberVersion
     implementation group: 'io.cucumber', name: 'cucumber-picocontainer', version: cucumberVersion
     implementation group: 'org.slf4j', name: 'slf4j-api', version: slf4jVersion
-    implementation group: 'org.slf4j', name: 'slf4j-log4j12', version: slf4jVersion
     implementation group: 'com.epam.reportportal', name: 'agent-java-cucumber6', version: reportportalCucumberVersion
+    implementation group: 'com.epam.reportportal', name: 'logger-java-logback', version: reportportalLogbackVersion
 
 }
 
+task getProp{
+    doLast {
+        def prop = new Properties()
+        prop.setProperty('rp.endpoint', System.getenv('RP_ENDPOINT'))
+        prop.setProperty('rp.uuid', System.getenv('RP_UUID'))
+        prop.setProperty('rp.project', System.getenv('RP_PROJECT'))
+        prop.setProperty('rp.launch', System.getenv('RP_LAUNCH'))
+        file('src/main/resources/reportportal.properties').absoluteFile.withWriter { prop.store(it, null) }
+    }
+}
+
 task cucumber() {
+    getProp
     dependsOn assemble, testClasses
     doLast {
         javaexec {
@@ -57,8 +70,3 @@ task cucumber() {
         }
     }
 }
-
-
-//test {
-//    useJUnitPlatform()
-//}
