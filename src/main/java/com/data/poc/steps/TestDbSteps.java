@@ -8,7 +8,6 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Assert;
 import org.testng.asserts.SoftAssert;
 
 
@@ -18,6 +17,7 @@ import java.util.UUID;
 @Slf4j
 public class TestDbSteps {
     private UUID uuid;
+    private String tableName;
 
     SqliteConnection connection = new SqliteConnection();
     DataService dataService = new DataService(new SqliteRepository(connection));
@@ -25,18 +25,19 @@ public class TestDbSteps {
 
     @Given("table with name {}")
     public void table_with_name(String tableName) {
+        this.tableName = tableName;
         dataService.createDataTable(tableName);
     }
 
-    @When("insert user with first name {} and last name {} into table {}")
-    public void insert_user_with_first_name_last_name_into_table(String firstName, String lastName, String tableName) {
+    @When("insert user with first name {} and last name {}")
+    public void insert_user_with_first_name_last_name_into_table(String firstName, String lastName) {
         uuid = UUID.randomUUID();
         User user = getUser(uuid, firstName, lastName);
         dataService.insertData(tableName, user);
     }
 
-    @Then("correct data with {} and {} appears in the table {}")
-    public void correct_data_appears_in_the_table(String firstName, String lastName, String tableName) {
+    @Then("correct data with {} and {} appears")
+    public void correct_data_appears_in_the_table(String firstName, String lastName) {
         List<User> users = dataService.selectAllUsers(tableName);
 
         users.forEach(
@@ -47,24 +48,24 @@ public class TestDbSteps {
                 });
     }
 
-    @When("update data in table {} with {} and {}")
-    public void update_data_in_table(String tableName, String newFirstName, String newLastName) {
+    @When("update data with {} and {}")
+    public void update_data_in_table(String newFirstName, String newLastName) {
         User user = getUser(uuid, newFirstName, newLastName);
         dataService.updateUser(tableName, user);
     }
 
-    @When("delete data from table {} where first name = {} and last name = {}")
-    public void delete_data_from_table_where_first_name_and_last_name(String tableName, String firstName, String lastName) {
+    @When("delete data where first name = {} and last name = {}")
+    public void delete_data_from_table_where_first_name_and_last_name(String firstName, String lastName) {
         dataService.deleteDataByName(tableName, firstName, lastName);
     }
 
-    @When("delete data from table {} by id")
-    public void delete_data_from_table_by_id(String tableName) {
+    @When("delete data by id")
+    public void delete_data_from_table_by_id() {
         dataService.deleteDataById(tableName, uuid.toString());
     }
 
-    @Then("data is absent with {} and {} in table {}")
-    public void data_is_absent_in_table( String firstName, String lastName, String tableName){
+    @Then("data is absent with {} and {}")
+    public void data_is_absent_in_table( String firstName, String lastName){
         User user = dataService.selectSingleUser(tableName, firstName, lastName);
         log.info("Result after deletion {}", user);
         softAssert.assertNull(user.getId());

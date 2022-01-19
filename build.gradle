@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id "io.qameta.allure" version "2.8.1" apply true
 }
 
 group 'org.data.poc'
@@ -21,6 +22,7 @@ def sqliteJdbcVersion = "3.36.0.3"
 def slf4jVersion = "1.7.32"
 def reportportalCucumberVersion = "5.0.6"
 def reportportalLogbackVersion = "5.0.3"
+def allureVersion = "2.17.2"
 
 
 
@@ -38,6 +40,8 @@ dependencies {
     implementation group: 'org.slf4j', name: 'slf4j-api', version: slf4jVersion
     implementation group: 'com.epam.reportportal', name: 'agent-java-cucumber6', version: reportportalCucumberVersion
     implementation group: 'com.epam.reportportal', name: 'logger-java-logback', version: reportportalLogbackVersion
+    implementation group: 'io.qameta.allure', name: 'allure-testng', version: allureVersion
+    implementation group: 'io.qameta.allure', name: 'allure-cucumber6-jvm', version: allureVersion
 
 }
 
@@ -61,11 +65,11 @@ task cucumber() {
             classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
             args = [
                     '--strict',
-                    '--plugin', 'html:build/cucumber-report/cucumber-html-report',
+                    '--plugin', 'html:build/cucumber-report/cucumber-html-report.html',
                     '--plugin', 'json:build/cucumber-report/cucumber.json',
                     '--plugin', 'pretty',
                     '--plugin', 'com.epam.reportportal.cucumber.StepReporter',
-                    //'--plugin', 'io.qameta.allure.cucumber5jvm.AllureCucumber5Jvm',
+                    '--plugin', 'io.qameta.allure.cucumber6jvm.AllureCucumber6Jvm',
                     '--tags', tags]
         }
     }

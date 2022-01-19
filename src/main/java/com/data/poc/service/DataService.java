@@ -3,6 +3,7 @@ package com.data.poc.service;
 import com.data.poc.model.User;
 import com.data.poc.repository.Repository;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -40,4 +41,5 @@ public class DataService {
     public void deleteDataById(String tableName, String id){
         repository.deleteById(tableName, id);
     }
+
 }
