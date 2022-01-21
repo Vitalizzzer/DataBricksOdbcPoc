@@ -9,7 +9,12 @@ export RP_PROJECT=<PROJECT_NAME>
 export RP_LAUNCH=<LAUNCH_NAME>
 
 ### Execution
-Run in terminal:
+Run in terminal in MAC/Linux:
 ```bash 
 ./gradlew clean cucumber -P tags='@ODBC'
+```
+
+Run in terminal in Windows:
+```bash 
+gradlew clean cucumber -P tags='@ODBC'
 ```

@@ -65,8 +65,8 @@ task cucumber() {
             classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
             args = [
                     '--strict',
-                    '--plugin', 'html:build/cucumber-report/cucumber-html-report.html',
-                    '--plugin', 'json:build/cucumber-report/cucumber.json',
+                    '--plugin', 'html:target/cucumber-report/cucumber-html-report.html',
+                    '--plugin', 'json:target/cucumber-report/cucumber.json',
                     '--plugin', 'pretty',
                     '--plugin', 'com.epam.reportportal.cucumber.StepReporter',
                     '--plugin', 'io.qameta.allure.cucumber6jvm.AllureCucumber6Jvm',

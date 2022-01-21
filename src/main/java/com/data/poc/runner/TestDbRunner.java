@@ -10,8 +10,8 @@ import org.testng.annotations.DataProvider;
 @CucumberOptions(
         plugin = {
                 "pretty",
-                "html:cucumber-report/cucumber-html-report.html",
-                "json:cucumber-report/cucumber-report.json",
+                "html:target/cucumber-report/cucumber-html-report.html",
+                "json:target/cucumber-report/cucumber-report.json",
                 "com.epam.reportportal.cucumber.StepReporter"
         },
         features = {"classpath:features"},
