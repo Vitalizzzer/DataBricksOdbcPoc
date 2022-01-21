@@ -5,7 +5,7 @@ Feature: Verify data in database
   Background:
     Given table with name employee
 
-  @1
+  @1 @ODBC
   Scenario Outline: Insert and verify data
     When insert user with first name <FirstName> and last name <LastName>
     Then correct data with <FirstName> and <LastName> appears

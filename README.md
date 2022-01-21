@@ -16,5 +16,5 @@ Run in terminal in MAC/Linux:
 
 Run in terminal in Windows:
 ```bash 
-gradlew clean cucumber -P tags='@ODBC'
+gradlew clean cucumber -P tags=@ODBC
 ```
