@@ -57,15 +57,15 @@ task getProp{
 }
 
 task cucumber() {
-   // getProp
+    getProp
     dependsOn assemble, testClasses
     doLast {
         javaexec {
             main = "io.cucumber.core.cli.Main"
             classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
             args = [
-                    '--glue', 'com.data.poc.steps', 'src/main/resources/features',
                     '--strict',
+                    '--glue', 'com.data.poc.steps', 'src/main/resources/features',
                     '--plugin', 'html:target/cucumber-report/cucumber-html-report.html',
                     '--plugin', 'json:target/cucumber-report/cucumber.json',
                     '--plugin', 'pretty',
