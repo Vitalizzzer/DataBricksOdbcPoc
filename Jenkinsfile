@@ -8,7 +8,7 @@ pipeline {
                 }
             }
             steps {
-                sh './gradlew clean cucumber -P tags='@ODBC''
+                sh './gradlew clean cucumber -P tags=@ODBC'
             }
         }
     }
