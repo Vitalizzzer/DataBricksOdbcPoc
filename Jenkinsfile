@@ -18,7 +18,7 @@ pipeline {
                  }
             }
             steps {
-                 sh "curl -X PUT -d '{\"commit_title\": \"Merge pull request\"}'  BRANCH_NAME == 'master'
+                 echo 'Need command to merge into master'
               }
             }
         }
