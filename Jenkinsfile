@@ -1,12 +1,9 @@
-
 pipeline {
-    agent {
-        docker { image 'cypress/included:3.2.0'}
-    }
+    agent any
     stages {
         stage('Test') {
             steps {
-             sh 'virtualenv venv && . venv/bin/activate && pip install behave'
+                sh './gradlew clean cucumber -P tags='@ODBC''
             }
         }
     }
