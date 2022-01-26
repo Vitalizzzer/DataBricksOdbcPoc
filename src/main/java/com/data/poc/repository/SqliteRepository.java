@@ -6,9 +6,16 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.*;
+import java.util.UUID;
 
 @Slf4j
-public record SqliteRepository(SqliteConnection connection) implements Repository {
+public class SqliteRepository implements Repository {
+
+    private final SqliteConnection connection;
+
+    public SqliteRepository(SqliteConnection connection) {
+        this.connection = connection;
+    }
 
     @Override
     public void createTable(String tableName) {
@@ -17,7 +24,7 @@ public record SqliteRepository(SqliteConnection connection) implements Repositor
         }
 
         String createTableQuery = String.format("CREATE TABLE %s (id text, firstName text, lastName text)", tableName);
-        Connection connection = this.connection.getConnection();
+        java.sql.Connection connection = this.connection.getConnection();
 
         try {
             Statement statement = connection.createStatement();
@@ -35,7 +42,7 @@ public record SqliteRepository(SqliteConnection connection) implements Repositor
     @Override
     public void dropTable(String tableName) {
         String dropTableQuery = String.format("DROP TABLE %s", tableName);
-        Connection connection = this.connection.getConnection();
+        java.sql.Connection connection = this.connection.getConnection();
 
         try {
             Statement statement = connection.createStatement();
@@ -53,7 +60,7 @@ public record SqliteRepository(SqliteConnection connection) implements Repositor
     public void insert(String tableName, User user) {
         String insertQuery = String.format("INSERT INTO %s (id, firstName, lastName) VALUES ('%s', '%s', '%s')",
                 tableName, user.getId(), user.getFirstName(), user.getLastName());
-        Connection connection = this.connection.getConnection();
+        java.sql.Connection connection = this.connection.getConnection();
 
         try {
             connection.setAutoCommit(false);
@@ -73,7 +80,7 @@ public record SqliteRepository(SqliteConnection connection) implements Repositor
     @Override
     public List<User> selectAll(String tableName) {
         String selectQuery = String.format("SELECT * FROM %s", tableName);
-        Connection connection = this.connection.getConnection();
+        java.sql.Connection connection = this.connection.getConnection();
         List<User> userList = new ArrayList<>();
 
         try {
@@ -103,7 +110,7 @@ public record SqliteRepository(SqliteConnection connection) implements Repositor
     @Override
     public User selectOne(String tableName, String firstName, String lastName) {
         String selectQuery = String.format("SELECT * FROM %s WHERE firstName = '%s' and lastName = '%s'", tableName, firstName, lastName);
-        Connection connection = this.connection.getConnection();
+        java.sql.Connection connection = this.connection.getConnection();
         User user = new User();
         try {
             connection.setAutoCommit(false);
@@ -129,7 +136,7 @@ public record SqliteRepository(SqliteConnection connection) implements Repositor
 
     @Override
     public boolean tableExists(String tableName) {
-        try (Connection connection = this.connection.getConnection()) {
+        try (java.sql.Connection connection = this.connection.getConnection()) {
             DatabaseMetaData dbm = connection.getMetaData();
             ResultSet tables = dbm.getTables(null, null, tableName, null);
             return tables.next();
@@ -144,7 +151,7 @@ public record SqliteRepository(SqliteConnection connection) implements Repositor
     public void update(String tableName, User user) {
         String updateQuery = String.format("UPDATE %s SET firstName = '%s', lastName = '%s' WHERE id = '%s'",
                 tableName, user.getFirstName(), user.getLastName(), user.getId());
-        Connection connection = this.connection.getConnection();
+        java.sql.Connection connection = this.connection.getConnection();
 
         try {
             connection.setAutoCommit(false);
@@ -165,7 +172,7 @@ public record SqliteRepository(SqliteConnection connection) implements Repositor
     public void deleteByName(String tableName, String firstName, String lastName) {
         String deleteQuery = String.format("DELETE FROM %s WHERE firstName = '%s' and lastName = '%s'",
                 tableName, firstName, lastName);
-        Connection connection = this.connection.getConnection();
+        java.sql.Connection connection = this.connection.getConnection();
 
         try {
             connection.setAutoCommit(false);
@@ -185,7 +192,7 @@ public record SqliteRepository(SqliteConnection connection) implements Repositor
     @Override
     public void deleteById(String tableName, String id) {
         String deleteQuery = String.format("DELETE FROM %s WHERE id = '%s'", tableName, id);
-        Connection connection = this.connection.getConnection();
+        java.sql.Connection connection = this.connection.getConnection();
 
         try {
             connection.setAutoCommit(false);
