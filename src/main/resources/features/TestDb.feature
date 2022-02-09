@@ -28,16 +28,16 @@ Feature: Verify data in database
       | John      | Smith    | Andrew       | Spark       |
 
 #########################################################################################################################
-  @3 @ODBC @TestCaseKey=TGTB-T3
-  Scenario Outline: Delete data by name and verify data
-    When insert user with first name <FirstName> and last name <LastName>
-    Then correct data with <FirstName> and <LastName> appears
-    When delete data where first name = <FirstName> and last name = <LastName>
-    Then data is absent with <FirstName> and <LastName>
-
-    Examples:
-      | FirstName | LastName |
-      | John      | Smith    |
+#  @3
+#  Scenario Outline: Delete data by name and verify data
+#    When insert user with first name <FirstName> and last name <LastName>
+#    Then correct data with <FirstName> and <LastName> appears
+#    When delete data where first name = <FirstName> and last name = <LastName>
+#    Then data is absent with <FirstName> and <LastName>
+#
+#    Examples:
+#      | FirstName | LastName |
+#      | John      | Smith    |
 
 #########################################################################################################################
 #  @4
