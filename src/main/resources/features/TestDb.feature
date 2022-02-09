@@ -16,17 +16,17 @@ Feature: Verify data in database
       | John      | Smith    |
 
 ########################################################################################################################
-#  @2
-#  Scenario Outline: Update and verify data
-#    When insert user with first name <FirstName> and last name <LastName>
-#    Then correct data with <FirstName> and <LastName> appears
-#    When update data with <NewFirstName> and <NewLastName>
-#    Then correct data with <NewFirstName> and <NewLastName> appears
-#
-#    Examples:
-#      | FirstName | LastName | NewFirstName | NewLastName |
-#      | John      | Smith    | Andrew       | Spark       |
-#
+  @2 @ODBC @TestCaseKey=TGTB-T2
+  Scenario Outline: Update and verify data
+    When insert user with first name <FirstName> and last name <LastName>
+    Then correct data with <FirstName> and <LastName> appears
+    When update data with <NewFirstName> and <NewLastName>
+    Then correct data with <NewFirstName> and <NewLastName> appears
+
+    Examples:
+      | FirstName | LastName | NewFirstName | NewLastName |
+      | John      | Smith    | Andrew       | Spark       |
+
 #########################################################################################################################
 #  @3
 #  Scenario Outline: Delete data by name and verify data
